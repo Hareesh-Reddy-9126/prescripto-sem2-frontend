@@ -32,7 +32,7 @@ const Login = () => {
     event.preventDefault();
 
     if (!normalizedBackendUrl) {
-      toast.error('Backend URL is not configured. Please set VITE_BACKEND_URL in your environment or provide deployed.json')
+      toast.error('Backend URL is not configured. Please set VITE_API_URL in your environment or provide deployed.json')
       return
     }
 

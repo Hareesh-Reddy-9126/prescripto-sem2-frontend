@@ -1,7 +1,7 @@
 // Small runtime config helper for pharmacist app.
 export function getBackendUrl() {
   try {
-    const env = (import.meta.env.VITE_BACKEND_URL || '').trim()
+    const env = (import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || '').trim()
     if (env) return env.replace(/\/+$/g, '')
   } catch (e) {
     // ignore

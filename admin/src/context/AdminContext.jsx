@@ -25,7 +25,7 @@ const AdminContextProvider = (props) => {
         try {
             const backendUrl = getBackendUrl()
             if (!backendUrl) {
-                toast.error('Backend URL not configured. Provide VITE_BACKEND_URL or deployed.json')
+                toast.error('Backend URL not configured. Provide VITE_API_URL or deployed.json')
                 return
             }
             const { data } = await axios.get(backendUrl + '/api/admin/all-doctors', { headers: { aToken } })

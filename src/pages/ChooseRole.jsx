@@ -6,7 +6,7 @@ const ChooseRole = () => {
     doctor: import.meta.env.VITE_DOCTOR_URL || '',
     pharmacist: import.meta.env.VITE_PHARMACIST_URL || '',
     frontend: import.meta.env.VITE_FRONTEND_URL || '',
-    backend: import.meta.env.VITE_BACKEND_URL || ''
+    backend: import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || ''
   })
 
   useEffect(() => {

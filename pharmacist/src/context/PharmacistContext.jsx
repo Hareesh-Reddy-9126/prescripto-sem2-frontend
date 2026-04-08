@@ -8,7 +8,7 @@ import { getBackendUrl } from '../utils/runtimeConfig'
 export const PharmacistContext = createContext()
 
 const createApiClient = (token) => {
-  const base = getBackendUrl() || 'http://localhost:4000'
+  const base = getBackendUrl() || ''
   const client = axios.create({
     baseURL: `${base}/api/pharmacist`,
   })
@@ -63,7 +63,11 @@ export const PharmacistProvider = ({ children }) => {
   const login = useCallback(async ({ email, password }) => {
     try {
       setLoading(true)
-      const base = getBackendUrl() || 'http://localhost:4000'
+      const base = getBackendUrl() || ''
+      if (!base) {
+        toast.error('Backend URL is not configured. Please set VITE_API_URL in your environment or provide deployed.json')
+        return { success: false }
+      }
       const { data } = await axios.post(`${base}/api/pharmacist/login`, { email, password })
 
       if (!data.success) {
@@ -166,7 +170,11 @@ export const PharmacistProvider = ({ children }) => {
 
         try {
           setLoading(true)
-          const base = getBackendUrl() || 'http://localhost:4000'
+          const base = getBackendUrl() || ''
+          if (!base) {
+            persistToken('')
+            return
+          }
           // verify by calling profile endpoint with the stored token
           const { data } = await axios.get(`${base}/api/pharmacist/profile`, { headers: { token: stored } })
           if (data && data.success) {

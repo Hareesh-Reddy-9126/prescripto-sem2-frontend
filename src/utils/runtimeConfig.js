@@ -1,8 +1,8 @@
-// Small runtime config helper: prefer VITE_BACKEND_URL embedded at build time,
+// Small runtime config helper: prefer VITE_API_URL embedded at build time,
 // otherwise read the runtime deployed.json attached to window.__DEPLOYED.
 export function getBackendUrl() {
   try {
-    const env = (import.meta.env.VITE_BACKEND_URL || '').trim()
+    const env = (import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || '').trim()
     if (env) return env.replace(/\/+$|\s+$/g, '')
   } catch (e) {
     // import.meta may not be available in some contexts; ignore

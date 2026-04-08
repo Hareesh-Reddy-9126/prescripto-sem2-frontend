@@ -21,7 +21,7 @@ npm run dev
 The dev server uses [http://localhost:5175](http://localhost:5175) by default. Override the backend API base via `.env`:
 
 ```
-VITE_BACKEND_URL=http://localhost:4000
+VITE_API_URL=http://localhost:4000
 ```
 
 ## 🔌 API Dependencies
