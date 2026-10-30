@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -6,19 +6,16 @@ const Doctors = () => {
 
   const { speciality } = useParams()
 
-  const [filterDoc, setFilterDoc] = useState([])
   const [showFilter, setShowFilter] = useState(false)
   const navigate = useNavigate();
 
-  const { doctors } = useContext(AppContext)
+  const { doctors, doctorsLoading, doctorsError, getDoctosData } = useContext(AppContext)
 
-  useEffect(() => {
-    if (speciality) {
-      setFilterDoc(doctors.filter(doc => doc.speciality === speciality))
-    } else {
-      setFilterDoc(doctors)
-    }
-  }, [doctors, speciality])
+  // Derive the visible list directly from context so cached doctors render
+  // immediately for logged-out visitors, without waiting for an effect.
+  const filterDoc = speciality
+    ? doctors.filter(doc => doc.speciality === speciality)
+    : doctors
 
   return (
     <div>
@@ -34,6 +31,18 @@ const Doctors = () => {
           <p onClick={() => speciality === 'Gastroenterologist' ? navigate('/doctors') : navigate('/doctors/Gastroenterologist')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Gastroenterologist' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Gastroenterologist</p>
         </div>
         <div className='w-full grid grid-cols-auto gap-4 gap-y-6'>
+          {filterDoc.length === 0 && doctorsLoading && (
+            <p className='col-span-full text-sm text-gray-500'>Loading doctors...</p>
+          )}
+          {filterDoc.length === 0 && !doctorsLoading && doctorsError && (
+            <div className='col-span-full flex flex-col items-start gap-3'>
+              <p className='text-sm text-gray-500'>We could not load the doctors right now. Please try again.</p>
+              <button onClick={getDoctosData} className='bg-[#EAEFFF] text-gray-600 px-8 py-2 rounded-full'>Try again</button>
+            </div>
+          )}
+          {filterDoc.length === 0 && !doctorsLoading && !doctorsError && (
+            <p className='col-span-full text-sm text-gray-500'>No doctors found for this speciality.</p>
+          )}
           {filterDoc.map((item, index) => (
             <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} className='border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
               <img className='bg-[#EAEFFF]' src={item.image} alt="" />

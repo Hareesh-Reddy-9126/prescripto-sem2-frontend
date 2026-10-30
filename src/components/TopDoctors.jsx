@@ -5,13 +5,25 @@ const TopDoctors = () => {
 
     const navigate = useNavigate()
 
-    const { doctors } = useContext(AppContext)
+    const { doctors, doctorsLoading, doctorsError, getDoctosData } = useContext(AppContext)
 
     return (
         <div className='flex flex-col items-center gap-4 my-16 text-[#262626] md:mx-10'>
             <h1 className='text-3xl font-medium'>Top Doctors to Book</h1>
             <p className='sm:w-1/3 text-center text-sm'>Simply browse through our extensive list of trusted doctors.</p>
             <div className='w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
+                {doctors.length === 0 && doctorsLoading && (
+                    <p className='col-span-full text-center text-sm text-gray-500'>Loading doctors...</p>
+                )}
+                {doctors.length === 0 && !doctorsLoading && doctorsError && (
+                    <div className='col-span-full flex flex-col items-center gap-3'>
+                        <p className='text-center text-sm text-gray-500'>We could not load the doctors right now. Please try again.</p>
+                        <button onClick={getDoctosData} className='bg-[#EAEFFF] text-gray-600 px-8 py-2 rounded-full'>Try again</button>
+                    </div>
+                )}
+                {doctors.length === 0 && !doctorsLoading && !doctorsError && (
+                    <p className='col-span-full text-center text-sm text-gray-500'>No doctors are available right now.</p>
+                )}
                 {doctors.slice(0, 10).map((item, index) => (
                     <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} className='border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
                         <img className='bg-[#EAEFFF]' src={item.image} alt="" />
