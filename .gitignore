@@ -1,30 +1,43 @@
+# Dependencies
+node_modules/
+packages/*/node_modules/
+
+# Build outputs
+dist/
+packages/*/dist/
+
+# Environment files
+.env
+.env.*
+!.env.example
+packages/*/.env
+packages/*/.env.*
+packages/*/!.env.example
+
+# IDE
+.vercel/
+packages/*/.vercel/
+.vscode/
+.idea/
+*.swp
+*.swo
+
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-.env
-.env.*
-!.env.example
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
 
-.vercel
-.env*.local
+# Test coverage
+coverage/
+packages/*/coverage/
+
+# Vercel
+.vercel/output/
+
+# Turbo
+.turbo/
